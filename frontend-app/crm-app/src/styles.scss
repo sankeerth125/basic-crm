@@ -1,8 +1,13 @@
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
 @import "https://fonts.googleapis.com/icon?family=Material+Icons";
 
+body {
+  margin: 0px;
+}
+
 .login-title {
-  font-family: monospace;
+  font-family: system-ui;
+  color: slategray;
   font-size: 32px;
   margin-top: 0px;
 }
@@ -41,4 +46,10 @@
   width: 50%;
   font-size: medium;
   font-family: system-ui;
+}
+
+// Mat error styling
+.mat-form-field-subscript-wrapper {
+  padding: 0 6px;
+  margin-top: 3px;
 }

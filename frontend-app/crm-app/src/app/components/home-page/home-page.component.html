@@ -1,1 +1,25 @@
-<p>home-page works!</p>
+<div class="home-page">
+  <mat-toolbar color="primary">
+    <span>My Dashboard</span>
+  </mat-toolbar>
+
+  <mat-drawer-container class="home-container" autosize>
+    <mat-drawer #drawer class="home-sidenav" mode="side">
+      <div class="sidenav-container">
+        <button type="button" mat-button>List</button>
+        <button type="button" mat-button>Add New</button>
+        <button type="button" mat-button>Delete</button>
+        <button type="button" mat-button>Update</button>
+        <button type="button" mat-button>Search By Id</button>
+      </div>
+    </mat-drawer>
+
+    <div class="home-content">
+      <div style="display: flex; justify-content: end">
+        <button type="button" mat-button (click)="drawer.toggle()">
+          Toggle sidenav
+        </button>
+      </div>
+    </div>
+  </mat-drawer-container>
+</div>

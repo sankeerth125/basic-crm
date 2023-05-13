@@ -5,6 +5,17 @@
       <mat-form-field appearance="outline" class="login-input">
         <mat-label>UserName</mat-label>
         <input matInput required [formControl]="username" />
+        <button
+          mat-icon-button
+          matSuffix
+          type="button"
+          #tooltip="matTooltip"
+          matTooltip="Entered username is not available"
+          matTooltipPosition="right"
+          matTooltipHideDelay="300"
+        >
+          <mat-icon style="color: #ff4081">info</mat-icon>
+        </button>
       </mat-form-field>
 
       <mat-form-field appearance="outline" class="login-input">
@@ -32,6 +43,9 @@
             hidePassword ? "visibility_off" : "visibility"
           }}</mat-icon>
         </button>
+        <mat-error *ngIf="password.hasError('minlength')">
+          Min Length should be 8 characters</mat-error
+        >
       </mat-form-field>
 
       <mat-form-field appearance="outline" class="login-input">
@@ -54,12 +68,17 @@
             hideConfirmPassword ? "visibility_off" : "visibility"
           }}</mat-icon>
         </button>
+        <mat-error *ngIf="confirmPassword.hasError('passwordNotMatched')">
+          Password is not same</mat-error
+        >
       </mat-form-field>
 
       <button
         class="login-button"
         mat-flat-button
         color="primary"
+        [disabled]="!userFormGroup.valid"
+        type="button"
         (click)="onRegisterClick()"
       >
         Register
