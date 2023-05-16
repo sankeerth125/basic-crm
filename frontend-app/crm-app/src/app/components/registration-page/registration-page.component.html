@@ -3,9 +3,10 @@
     <form class="login-form">
       <h2 class="login-title">Registration</h2>
       <mat-form-field appearance="outline" class="login-input">
-        <mat-label>UserName</mat-label>
+        <mat-label>Username</mat-label>
         <input matInput required [formControl]="username" />
         <button
+          *ngIf="username.hasError('usernameExists')"
           mat-icon-button
           matSuffix
           type="button"
@@ -14,7 +15,7 @@
           matTooltipPosition="right"
           matTooltipHideDelay="300"
         >
-          <mat-icon style="color: #ff4081">info</mat-icon>
+          <mat-icon style="color: #f44336">info</mat-icon>
         </button>
       </mat-form-field>
 

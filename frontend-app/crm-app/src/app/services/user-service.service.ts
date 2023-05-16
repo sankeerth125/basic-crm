@@ -20,7 +20,7 @@ export class UserServiceService {
   }
 
   checkIfUsernameAlreadyExist(username: string): Observable<boolean> {
-    return this.http.get(this.baseUrl + 'userPresent', {
+    return this.http.get(this.baseUrl + 'checkusername', {
       params: {
         username: username,
       },

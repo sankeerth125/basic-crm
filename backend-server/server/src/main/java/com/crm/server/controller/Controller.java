@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping("/api")
 public class Controller {
 
@@ -29,7 +28,7 @@ public class Controller {
         return new ResponseEntity<>(users, HttpStatus.OK);
     }
 
-    @GetMapping("/userpresent")
+    @GetMapping("/checkusername")
     public ResponseEntity<Boolean> isUsernameExists(@RequestParam String username) {
         return new ResponseEntity<>(userService.isUsernameAlreadyPresent(username), HttpStatus.OK);
     }

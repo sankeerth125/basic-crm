@@ -3,7 +3,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-//@Configuration //This can be used for detailed CORS Config instead of having @CrossOrigin(origins = "http://localhost:4200") on top of Controller
+@Configuration //This can be used for detailed CORS Config instead of having @CrossOrigin(origins = "http://localhost:4200") on top of Controller
 public class CorsConfig implements WebMvcConfigurer {
 
     @Override

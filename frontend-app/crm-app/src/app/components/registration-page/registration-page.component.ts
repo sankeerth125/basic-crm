@@ -2,9 +2,11 @@ import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import {
+  AbstractControl,
   FormControl,
   FormGroup,
   ReactiveFormsModule,
+  ValidationErrors,
   Validators,
 } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
@@ -13,6 +15,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { Router } from '@angular/router';
+import { debounceTime } from 'rxjs';
 import { User } from 'src/app/models/user.model';
 import { UserServiceService } from 'src/app/services/user-service.service';
 import { passwordMatchValidator } from 'src/app/validators/password-match.validator';
@@ -37,7 +40,11 @@ export class RegistrationPageComponent implements OnInit {
   hidePassword = true;
   hideConfirmPassword = true;
 
-  username = new FormControl<string>('');
+  username = new FormControl<string>(
+    '',
+    [Validators.required],
+    this.asyncUsernameValidator.bind(this)
+  );
   email = new FormControl<string>('', [Validators.email]);
   protected password = new FormControl<string>('', [Validators.minLength(8)]);
   protected confirmPassword = new FormControl<string>('');
@@ -60,9 +67,13 @@ export class RegistrationPageComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.userFormGroup.valueChanges.subscribe(() => {
-      console.log(this.userFormGroup.valid, this.userFormGroup.errors);
-    });
+    // this.username.valueChanges.pipe(debounceTime(500), switchMap((name) => {
+    //   if(name)
+    //   return this.userService.checkIfUsernameAlreadyExist(name);
+    //   return of(null);
+    // })).subscribe((val) => {
+    //   if(val) this.username.
+    // })
   }
 
   protected onRegisterClick() {
@@ -76,6 +87,24 @@ export class RegistrationPageComponent implements OnInit {
     this.userService.saveUser(user).subscribe((user) => {
       console.log(user);
       if (user) this.router.navigate(['/home']);
+    });
+  }
+
+  private asyncUsernameValidator(
+    control: AbstractControl
+  ): Promise<ValidationErrors | null> {
+    return new Promise<ValidationErrors | null>((resolve) => {
+      const username = control.value;
+      this.userService
+        .checkIfUsernameAlreadyExist(this.username.value || '')
+        .pipe(debounceTime(1000))
+        .subscribe((exists) => {
+          if (exists) {
+            resolve({ usernameExists: true }); // Set error if username exists
+          } else {
+            resolve(null); // No error if username does not exist
+          }
+        });
     });
   }
 }
